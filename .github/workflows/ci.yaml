@@ -39,6 +39,16 @@ jobs:
         with:
           files: ./coverage.out
 
+  golint:
+    runs-on: [ubuntu-20.04]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: golangci/golangci-lint-action@v2
+        with:
+          version: v1.29
+          only-new-issues: true
+          args: --enable golint --timeout 10m --issues-exit-code=0
+
   run-deploy:
     runs-on: [ubuntu-20.04]
 
