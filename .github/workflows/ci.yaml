@@ -43,9 +43,14 @@ jobs:
     runs-on: [ubuntu-20.04]
     steps:
       - uses: actions/checkout@v2
+      - run: |
+          echo ${PATH}
+          which git
+          ls /usr/bin/git
       - uses: golangci/golangci-lint-action@v2
         with:
           version: v1.39
+          args: -v
           only-new-issues: true
           # skip cache because of flaky behaviors
           skip-build-cache: true
