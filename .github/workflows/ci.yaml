@@ -47,6 +47,7 @@ jobs:
           echo ${PATH}
           which git
           ls /usr/bin/git
+          git diff HEAD~
       - uses: golangci/golangci-lint-action@v2
         with:
           version: v1.39
