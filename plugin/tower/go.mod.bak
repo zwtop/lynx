@@ -1,0 +1,13 @@
+module github.com/smartxworks/lynx/plugin/tower
+
+go 1.15
+
+require (
+	github.com/gertd/go-pluralize v0.1.7
+	github.com/gorilla/websocket v1.4.2
+	k8s.io/apimachinery v0.21.0
+	k8s.io/client-go v0.21.0
+	k8s.io/klog v1.0.0
+	k8s.io/klog/v2 v2.8.0
+	k8s.io/utils v0.0.0-20201110183641-67b214c5f920
+)

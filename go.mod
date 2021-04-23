@@ -7,8 +7,10 @@ require (
 	github.com/contiv/libovsdb v0.0.0
 	github.com/contiv/ofnet v0.0.0-00010101000000-000000000000
 	github.com/fatih/color v1.7.0
+	github.com/gertd/go-pluralize v0.1.7
 	github.com/go-logr/logr v0.4.0 // indirect
 	github.com/go-openapi/spec v0.19.3
+	github.com/gorilla/websocket v1.4.2
 	github.com/onsi/ginkgo v1.13.0
 	github.com/onsi/gomega v1.10.1
 	github.com/spf13/cobra v1.1.1
@@ -20,13 +22,15 @@ require (
 	k8s.io/cli-runtime v0.20.1
 	k8s.io/client-go v0.20.1
 	k8s.io/klog v1.0.0
+	k8s.io/klog/v2 v2.4.0
 	k8s.io/kube-openapi v0.0.0-20201113171705-d219536bb9fd
+	k8s.io/utils v0.0.0-20201110183641-67b214c5f920
 	sigs.k8s.io/controller-runtime v0.6.0
 )
 
 replace (
 	github.com/contiv/libOpenflow => github.com/echkenluo/libOpenflow v0.0.0-20210415080703-4361a8a1982d
 	github.com/contiv/libovsdb => github.com/smartxworks/libovsdb v0.0.0-20210326110222-6c508538aa65
-    github.com/contiv/ofnet => github.com/smartxworks/ofnet v0.0.0-20210421082223-e16c95931aae
+	github.com/contiv/ofnet => github.com/smartxworks/ofnet v0.0.0-20210421082223-e16c95931aae
 	github.com/osrg/gobgp => github.com/zwtop/gobgp v0.0.0-20210127101833-12edfc1f4514
 )
