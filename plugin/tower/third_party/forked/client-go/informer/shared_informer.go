@@ -311,7 +311,7 @@ func (s *sharedIndexInformer) HandleDeltas(obj interface{}) error {
 				if err := s.indexer.Update(d.Object); err != nil {
 					return err
 				}
-				if d.Type != cache.Sync && s.ignoreDuplicateUpdates && reflect.DeepEqual(obj, d.Object) {
+				if d.Type != cache.Sync && s.ignoreDuplicateUpdates && reflect.DeepEqual(old, d.Object) {
 					continue
 				}
 				s.processor.distribute(updateNotification{oldObj: old, newObj: d.Object}, d.Type == cache.Sync)
