@@ -17,13 +17,11 @@ limitations under the License.
 package main
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/spf13/cobra"
 
-	"github.com/smartxworks/lynx/tests/e2e/framework"
-	"github.com/smartxworks/lynx/tests/e2e/tools/command"
+	"github.com/smartxworks/lynx/tests/e2e/tools/web-utils/command"
 )
 
 func main() {
@@ -34,26 +32,16 @@ func main() {
 
 func rootCommand() *cobra.Command {
 	rootCmd := &cobra.Command{
-		Use:   "e2ectl",
-		Short: "E2ectl: help you quickly start lynx e2e test",
-	}
-
-	f, err := framework.FrameworkFromConfig("/etc/lynx/e2e-config.yaml")
-	if err != nil {
-		fmt.Printf("unable init e2e framework: %s\n", err)
-		os.Exit(1)
+		Use:   "web-utils",
+		Short: "WebUtils: help you quickly start network connection test",
 	}
 
 	rootCmd.Root().SilenceUsage = true
 	rootCmd.Root().SetHelpCommand(&cobra.Command{Hidden: true})
 	rootCmd.ResetFlags()
 
-	rootCmd.AddCommand(command.NewVMCommand(f))
-	rootCmd.AddCommand(command.NewTierCommand(f))
-	rootCmd.AddCommand(command.NewGroupCommand(f))
-	rootCmd.AddCommand(command.NewPolicyCommand(f))
-	rootCmd.AddCommand(command.NewReachCommand(f))
-	rootCmd.AddCommand(command.NewCheckCommand(f))
+	rootCmd.AddCommand(command.NewServerCommand())
+	rootCmd.AddCommand(command.NewConnectCommand())
 
 	return rootCmd
 }
