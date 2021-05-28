@@ -32,6 +32,7 @@ import (
 	errutils "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/apimachinery/pkg/util/rand"
 	"k8s.io/apimachinery/pkg/util/sets"
+	"k8s.io/klog"
 
 	"github.com/smartxworks/lynx/tests/e2e/framework/config"
 )
@@ -293,7 +294,7 @@ func (m *Manager) DumpFlowAll() (map[string][]string, error) {
 
 	for _, agent := range m.ListAgent() {
 		flows, err := agent.DumpFlow()
-		flowMap[agent.Name] = flows
+		flowMap[agent.Node.Name] = flows
 		errList = append(errList, err)
 	}
 
@@ -318,4 +319,57 @@ func (m *Manager) ListController() []*Controller {
 		}
 	}
 	return agents
+}
+
+func (m *Manager) RestartController(minInterval, maxInterval int) *ServiceRestartController {
+	var serviceList []Service
+
+	for _, agent := range m.ListAgent() {
+		serviceList = append(serviceList, agent)
+	}
+
+	for _, controller := range m.ListController() {
+		serviceList = append(serviceList, controller)
+	}
+
+	return &ServiceRestartController{
+		minInterval: minInterval,
+		maxInterval: maxInterval,
+		serviceList: serviceList,
+	}
+}
+
+type Service interface {
+	ServiceName() string
+	Restart() error
+	Healthz() (bool, error)
+	FetchLog() ([]byte, error)
+}
+
+// controller control automatically restart part of services after every random interval.
+type ServiceRestartController struct {
+	minInterval int
+	maxInterval int
+	serviceList []Service
+}
+
+func (c *ServiceRestartController) Run(stopCh <-chan struct{}) {
+	for {
+		select {
+		case <-time.After(time.Duration(rand.IntnRange(c.minInterval, c.maxInterval)) * time.Second):
+			for _, service := range c.serviceList {
+				if rand.Intn(2) == 0 {
+					continue
+				}
+				klog.Infof("will restart service %s", service.ServiceName())
+
+				if err := service.Restart(); err != nil {
+					log, _ := service.FetchLog()
+					klog.Fatalf("failed to restart service %s: %s, log\n: %s", service.ServiceName(), err, string(log))
+				}
+			}
+		case <-stopCh:
+			return
+		}
+	}
 }

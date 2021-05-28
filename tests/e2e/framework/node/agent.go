@@ -27,19 +27,23 @@ type Agent struct {
 }
 
 const (
-	agentBinaryName = "lynx-agent"
+	agentName = "lynx-agent"
 )
 
 func (n *Agent) Restart() error {
-	return n.reRunProcess(agentBinaryName)
+	return n.reRunProcess(agentName)
 }
 
 func (n *Agent) FetchLog() ([]byte, error) {
-	return n.fetchFile(agentBinaryName)
+	return n.fetchFile(fmt.Sprintf("/var/log/%s.log", agentName))
+}
+
+func (n *Agent) ServiceName() string {
+	return fmt.Sprintf("%s/%s", n.Node.Name, agentName)
 }
 
 func (n *Agent) Healthz() (bool, error) {
-	return n.checkProcess(agentBinaryName)
+	return n.checkProcess(agentName)
 }
 
 // dump the flows and parse the Output

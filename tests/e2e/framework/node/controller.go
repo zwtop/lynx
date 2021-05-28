@@ -16,22 +16,28 @@ limitations under the License.
 
 package node
 
+import "fmt"
+
 type Controller struct {
 	*Node
 }
 
 const (
-	controllerBinaryName = "lynx-controller"
+	controllerName = "lynx-controller"
 )
 
 func (n *Controller) Restart() error {
-	return n.reRunProcess(controllerBinaryName)
+	return n.reRunProcess(controllerName)
+}
+
+func (n *Controller) ServiceName() string {
+	return fmt.Sprintf("%s/%s", n.Node.Name, controllerName)
 }
 
 func (n *Controller) FetchLog() ([]byte, error) {
-	return n.fetchFile(controllerBinaryName)
+	return n.fetchFile(fmt.Sprintf("/var/log/%s.log", controllerName))
 }
 
 func (n *Controller) Healthz() (bool, error) {
-	return n.checkProcess(controllerBinaryName)
+	return n.checkProcess(controllerName)
 }

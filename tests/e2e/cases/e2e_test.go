@@ -53,6 +53,9 @@ var _ = BeforeSuite(func() {
 
 	err = e2eEnv.SetupObjects(ctx, defaultTier(tier0), defaultTier(tier1), defaultTier(tier2))
 	Expect(err).ToNot(HaveOccurred())
+
+	controller := e2eEnv.NodeManager().RestartController(5, 10)
+	go controller.Run(make(chan struct{}))
 })
 
 var _ = AfterSuite(func() {
