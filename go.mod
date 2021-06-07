@@ -17,6 +17,7 @@ require (
 	github.com/hashicorp/go-retryablehttp v0.7.0
 	github.com/onsi/ginkgo v1.13.0
 	github.com/onsi/gomega v1.10.1
+	github.com/slack-go/slack v0.9.1
 	github.com/spf13/cobra v1.1.1
 	github.com/vektah/gqlparser/v2 v2.1.0
 	golang.org/x/crypto v0.0.0-20201002170205-7f63de1d35b0
